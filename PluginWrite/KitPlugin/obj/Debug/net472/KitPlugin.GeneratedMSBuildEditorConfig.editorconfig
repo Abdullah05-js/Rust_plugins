@@ -1,0 +1,8 @@
+is_global = true
+build_property.RootNamespace = KitPlugin
+build_property.ProjectDir = C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

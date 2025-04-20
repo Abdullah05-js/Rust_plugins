@@ -1,0 +1,5 @@
+C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\obj\Debug\net472\KitPlugin.csproj.AssemblyReference.cache
+C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\obj\Debug\net472\KitPlugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\obj\Debug\net472\KitPlugin.AssemblyInfoInputs.cache
+C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\obj\Debug\net472\KitPlugin.AssemblyInfo.cs
+C:\Users\abdal\Desktop\Rust_Plugins\PluginWrite\KitPlugin\obj\Debug\net472\KitPlugin.csproj.CoreCompileInputs.cache
