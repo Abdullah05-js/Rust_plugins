@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System;
+using Oxide.Core.Libraries;
 
 
 namespace Oxide.Plugins
@@ -16,11 +17,13 @@ namespace Oxide.Plugins
         private float CombatTime = 20f;
         List<MonumentInfo> monumentInfos;
         Dictionary<ulong, float> lastCombat = new Dictionary<ulong, float>();
+
+        Dictionary<ulong, BasePlayer> Tps = new Dictionary<ulong, BasePlayer>();
         void OnServerInitialized()
         {
             monumentInfos = GameObject.FindObjectsOfType<MonumentInfo>().ToList();
         }
-        
+
         [ChatCommand("tp")]
         private void TpCommandHandler(BasePlayer player, string command, string[] args)
         {
@@ -36,27 +39,62 @@ namespace Oxide.Plugins
             getTargetPlayerFromTeam(Target, Team.members, player, ref isTeamMate, ref targetPlayer);
             if (!isTeamMate)
             {
-                player.ChatMessage("⚠️ You cant tp to this player");
+                player.ChatMessage("⚠️ you only allowed to tp to your teammates");
                 return;
             }
-            if (isPlayerInMonument(targetPlayer) && isPlayerInMonument(player) && !targetPlayer.InSafeZone())
+            if (Tps.TryGetValue(targetPlayer.userID, out BasePlayer tpSender))
             {
-                player.ChatMessage("⚠️ The player inside Monument");
+                player.ChatMessage("you have send tp request already");
                 return;
             }
-            if (isPlayerHavePriv(targetPlayer) && isPlayerHavePriv(player))
+            lastCombat.TryGetValue(player.userID, out float value);
+            if (value <= CombatTime)
             {
-                player.ChatMessage("⚠️ Your teammate inside others land");
+                player.ChatMessage($"⚠️ you in combat try after {(int)CombatTime - (int)value} seconds");
                 return;
             }
-            if (lastCombat[targetPlayer.userID] <= CombatTime && lastCombat[player.userID] <= CombatTime)
+            if (!isPlayerHavePriv(player))
             {
-                player.ChatMessage($"⚠️ Your teammate have combat try after {(int)lastCombat[targetPlayer.userID]} seconds");
+                player.ChatMessage("⚠️ you inside others land");
+                return;
+            }
+            Tps[targetPlayer.userID] = player;
+            timer.Once(15f, () =>
+            {
+                Tps.Remove(targetPlayer.userID);
+            });
+            targetPlayer.ChatMessage($"/tpa to accept teleport from {player.name}");
+        }
+
+
+        [ChatCommand("tpa")]
+        private void TpaCommandHandler(BasePlayer player, string command, string[] args)
+        {
+            if (!Tps.TryGetValue(player.userID, out BasePlayer tpSender))
+            {
+                player.ChatMessage("you have no tp request");
+                return;
+            }
+            if (isPlayerInMonument(player) && !player.InSafeZone())
+            {
+                player.ChatMessage("⚠️ your player inside a Monument");
+                return;
+            }
+            if (!isPlayerHavePriv(player))
+            {
+                player.ChatMessage("⚠️ Your inside others land");
+                return;
+            }
+            lastCombat.TryGetValue(player.userID, out float value);
+            if (value <= CombatTime)
+            {
+                player.ChatMessage($"⚠️ you in combat try after {(int)CombatTime - (int)lastCombat[player.userID]} seconds");
                 return;
             }
 
-            targetPlayer.Teleport(player);
+            player.Teleport(tpSender);
         }
+
 
         public bool isPlayerInMonument(BasePlayer player)
         {
@@ -70,8 +108,8 @@ namespace Oxide.Plugins
         public bool isPlayerHavePriv(BasePlayer player)
         {
             BuildingPrivlidge priv = player.GetBuildingPrivilege();
-            if (priv == null) return false;//the player not in privilege
-            return !priv.authorizedPlayers.Any(p => p.userid == player.userID); // if these return true that mean the user inside his base or he have access to tc
+            if (priv == null) return true;//the player not in privilege
+            return priv.authorizedPlayers.Any(p => p.userid == player.userID); // if these return true that mean the user inside his base or he have access to tc
         }
 
         public void getTargetPlayerFromTeam(string name, List<ulong> TeamMembers, BasePlayer player, ref bool isTeamMate, ref BasePlayer targetPlayer)
@@ -93,7 +131,7 @@ namespace Oxide.Plugins
 
         private void OnEntityTakeDamage(BaseCombatEntity entity, HitInfo info)
         {
-            var NowDate = Time.realtimeSinceStartup;
+            var NowDate = UnityEngine.Time.realtimeSinceStartup;
             var victim = entity as BasePlayer;
             var attacker = info.Initiator as BasePlayer;
             if (victim != null)
