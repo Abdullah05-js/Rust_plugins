@@ -44,13 +44,19 @@ namespace Oxide.Plugins
             }
             if (Tps.TryGetValue(targetPlayer.userID, out BasePlayer tpSender))
             {
-                player.ChatMessage("you have send tp request already");
+                player.ChatMessage("you have send tp request already");//1
+                return;
+            }
+            if (isPlayerInMonument(player) && !player.InSafeZone())
+            {
+                player.ChatMessage("⚠️ your player inside a Monument");
                 return;
             }
             lastCombat.TryGetValue(player.userID, out float value);
-            if (value <= CombatTime)
+            var NowTime = UnityEngine.Time.realtimeSinceStartup;
+            if (NowTime - value <= CombatTime)
             {
-                player.ChatMessage($"⚠️ you in combat try after {(int)CombatTime - (int)value} seconds");
+                player.SendConsoleCommand("gametip.showgametip", $"⚠️ you in combat try after {(int)CombatTime - (int)value} seconds");
                 return;
             }
             if (!isPlayerHavePriv(player))
@@ -62,6 +68,7 @@ namespace Oxide.Plugins
             timer.Once(15f, () =>
             {
                 Tps.Remove(targetPlayer.userID);
+                player.ChatMessage("The tp request timedout");
             });
             targetPlayer.ChatMessage($"/tpa to accept teleport from {player.name}");
         }
@@ -86,9 +93,10 @@ namespace Oxide.Plugins
                 return;
             }
             lastCombat.TryGetValue(player.userID, out float value);
-            if (value <= CombatTime)
+            var NowTime = UnityEngine.Time.realtimeSinceStartup;
+            if (NowTime - value <= CombatTime)
             {
-                player.ChatMessage($"⚠️ you in combat try after {(int)CombatTime - (int)lastCombat[player.userID]} seconds");
+                player.SendConsoleCommand("gametip.showgametip", $"⚠️ you in combat try after {(int)CombatTime - (int)value} seconds");
                 return;
             }
 
@@ -144,5 +152,11 @@ namespace Oxide.Plugins
                 lastCombat[attacker.userID] = NowDate;
             }
         }
+
+
+    
+
+
+
     }
 }
