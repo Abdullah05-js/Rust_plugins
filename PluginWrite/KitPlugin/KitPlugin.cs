@@ -39,7 +39,6 @@ namespace Oxide.Plugins
             }, uiID);
 
             CuiHelper.AddUi(player, container);
-            GameObject.FindObjectsOfType<MonumentInfo>();
         }
 
 

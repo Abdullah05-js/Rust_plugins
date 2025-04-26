@@ -35,6 +35,11 @@
  <Reference Include="Rust.Data">
     <HintPath>libs/Rust.Data.dll</HintPath>
   </Reference>
-
+<Reference Include="UnityEngine.PhysicsModule">
+    <HintPath>libs/UnityEngine.PhysicsModule.dll</HintPath>
+  </Reference>
+  <Reference Include="Rust.Global">
+    <HintPath>libs/Rust.Global.dll</HintPath>
+  </Reference>
 </ItemGroup>
 </Project>
