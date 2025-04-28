@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KitPlugin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a24db17c3a0890f5bdec83cbab41c024b73c101")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c0ba667596a5e156556edf9f2dedc69b14110eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("KitPlugin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KitPlugin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

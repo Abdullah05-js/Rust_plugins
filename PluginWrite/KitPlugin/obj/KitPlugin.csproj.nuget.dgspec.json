@@ -1,28 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\abdal\\Desktop\\Rust_Plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj": {}
+    "C:\\Users\\tahaz\\Desktop\\Rust_plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\abdal\\Desktop\\Rust_Plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj": {
+    "C:\\Users\\tahaz\\Desktop\\Rust_plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\abdal\\Desktop\\Rust_Plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj",
+        "projectUniqueName": "C:\\Users\\tahaz\\Desktop\\Rust_plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj",
         "projectName": "KitPlugin",
-        "projectPath": "C:\\Users\\abdal\\Desktop\\Rust_Plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj",
-        "packagesPath": "C:\\Users\\abdal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\abdal\\Desktop\\Rust_Plugins\\PluginWrite\\KitPlugin\\obj\\",
+        "projectPath": "C:\\Users\\tahaz\\Desktop\\Rust_plugins\\PluginWrite\\KitPlugin\\KitPlugin.csproj",
+        "packagesPath": "C:\\Users\\tahaz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tahaz\\Desktop\\Rust_plugins\\PluginWrite\\KitPlugin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\abdal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tahaz\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net472"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,6 +43,14 @@
       "frameworks": {
         "net472": {
           "targetAlias": "net472",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
         }
       }
