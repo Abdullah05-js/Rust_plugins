@@ -75,20 +75,18 @@ namespace Oxide.Plugins
         [ChatCommand("ui")]
         private void SpawnuiFirework(BasePlayer player)
         {
-
             int index = 1;
 
-            timer.Repeat(3f, 2, () =>
+            // Repeat the firework effect (timer, loop for 20 iterations)
+            timer.Repeat(0.5f, 20, () =>
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1; i++)  // 1 item per iteration
                 {
-                    CreateSpinUI(player, 0.5f, 20, (float)i / 10,index);
+                    // Create and animate a spin UI with an icon
+                    CreateSpinUI(player, 0.5f, 20,0.2f, index, "https://www.dropbox.com/scl/fi/tril3ylyha7pwca81b8od/164x164.png?dl=1");
                     index++;
                 }
             });
-
-
-
         }
 
 
@@ -124,27 +122,48 @@ namespace Oxide.Plugins
             return null;
         }
 
-        void CreateSpinUI(BasePlayer player, float speed, int Repeat, float space,int index)
+        void CreateSpinUI(BasePlayer player, float speed, int Repeat, float space, int index, string iconurl)
         {
-            float spaceL = space;
-            float alpha = 1f;
             float ani = 0f;
+
+            // Repeat the animation with timer
             timer.Repeat(speed, Repeat, () =>
-                        {
-                            alpha -= 0.1f;
-                            ani += 0.05f;
+            {
+                ani += 0.05f;  // Increment the animation value for movement
 
-                            var container = new CuiElementContainer();
-                            CuiHelper.DestroyUi(player, $"FadeText{index}");
+                var container = new CuiElementContainer();
 
-                            container.Add(new CuiLabel
-                            {
-                                Text = { Text = $"{space}", FontSize = 30, Align = TextAnchor.MiddleCenter, Color = $"1 1 1 {alpha}" },
-                                RectTransform = { AnchorMin = $"{ani} 0.5", AnchorMax = $"{ani + spaceL} 0.6" }
-                            }, "Overlay", $"FadeText{index}");
+                // Destroy any existing UI to avoid overlap
+                CuiHelper.DestroyUi(player, $"FadeText{index}");
 
-                            CuiHelper.AddUi(player, container);
-                        });
+                // Create the panel to hold the icon (transparent background, positioned dynamically)
+                var panel = new CuiPanel
+                {
+                    Image = { Color = "0 0 0 0" },  // Transparent background
+                    RectTransform = { AnchorMin = $"{ani} 0.5", AnchorMax = $"{ani + space} 0.6"}, // Position the panel
+                    CursorEnabled = false
+                };
+
+                container.Add(panel, "Overlay", $"FadeText{index}");
+
+                // Add an icon to the panel (stretch the image to fit the panel)
+                var icon = new CuiElement
+                {
+                    Name = "IconElement",
+                    Parent = $"FadeText{index}", // Attach icon to the correct panel
+                    Components =
+                    {
+                new CuiImageComponent { Sprite = iconurl},  // Set the icon URL (external link or asset path)
+                new CuiRectTransformComponent {AnchorMin = "0 0", AnchorMax = "1 1"}  // Stretch the image to fill the panel
+                    }
+                    
+                };
+
+                container.Add(icon);
+
+                // Add the UI container to the player
+                CuiHelper.AddUi(player, container);
+            });
         }
 
 
